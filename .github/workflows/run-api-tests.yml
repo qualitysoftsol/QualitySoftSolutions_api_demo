@@ -20,10 +20,11 @@ jobs:
       - name: Install Newman and reporters
         run: npm install -g newman newman-reporter-htmlextra
 
-      - name: Run Newman collection (QA)
+      - name: Run Newman collection
         run: |
           newman run collections/QualitySoftSolutions_api_demo.postman_collection.json \
-            -e environments/local.postman_environment.json \
+            -e environments/qa.postman_environment.json \
+            --env-var "x-api-key=${{ secrets.REQRES_API_KEY }}" \
             --iteration-data data/users_data.json \
             -r cli,htmlextra,junit \
             --reporter-htmlextra-export reports/html/local-report.html \
