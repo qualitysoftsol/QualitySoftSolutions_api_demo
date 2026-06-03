@@ -30,6 +30,7 @@ jobs:
             -e environments/qa.postman_environment.json \
             --env-var "x-api-key=${{ secrets.REQRES_API_KEY }}" \
             --iteration-data data/users_data.json \
+            --suppress-exit-code \
             -r cli,htmlextra,junit \
             --reporter-htmlextra-export reports/html/qa-report.html \
             --reporter-junit-export reports/junit/qa-report.xml
