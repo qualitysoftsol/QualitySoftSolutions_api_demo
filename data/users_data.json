@@ -1,0 +1,14 @@
+[
+  {
+    "username": "json_user1",
+    "password": "json_pass1",
+    "new_user_name": "JSON User 1",
+    "new_user_email": "json1@example.com"
+  },
+  {
+    "username": "json_user2",
+    "password": "json_pass2",
+    "new_user_name": "JSON User 2",
+    "new_user_email": "json2@example.com"
+  }
+]

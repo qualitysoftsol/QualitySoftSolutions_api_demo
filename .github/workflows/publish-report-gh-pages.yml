@@ -1,0 +1,42 @@
+name: Publish API Report to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Newman and reporters
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Run tests and generate report
+        run: |
+          newman run collections/QualitySoftSolutions_api_demo.postman_collection.json \
+            -e environments/qa.postman_environment.json \
+            --env-var "x-api-key=${{ secrets.REQRES_API_KEY }}" \
+            --iteration-data data/users_data.json \
+            -r cli,htmlextra,junit \
+            --reporter-htmlextra-export reports/html/qa-report.html \
+            --reporter-junit-export reports/junit/qa-report.xml
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports/html
+          publish_branch: gh-pages

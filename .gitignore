@@ -1,0 +1,9 @@
+node_modules/
+reports/
+.env
+.env.*
+*.log
+.claude/
+
+# Archivo de entorno local con credenciales reales (usa local.postman_environment.example.json como plantilla)
+environments/local.postman_environment.json

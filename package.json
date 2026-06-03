@@ -1,0 +1,12 @@
+{
+  "name": "api-testing-postman-newman",
+  "version": "1.0.0",
+  "scripts": {
+    "test:local": "newman run collections/QualitySoftSolutions_api_demo.postman_collection.json -e environments/local.postman_environment.json -r cli,htmlextra,junit --reporter-htmlextra-export reports/html/local-report.html --reporter-junit-export reports/junit/local-report.xml",
+    "test:qa": "newman run collections/QualitySoftSolutions_api_demo.postman_collection.json -e environments/qa.postman_environment.json --iteration-data data/users_data.json -r cli,htmlextra,junit --reporter-htmlextra-export reports/html/qa-report.html --reporter-junit-export reports/junit/qa-report.xml"
+  },
+  "devDependencies": {
+    "newman": "^6.0.0",
+    "newman-reporter-htmlextra": "^1.23.0"
+  }
+}

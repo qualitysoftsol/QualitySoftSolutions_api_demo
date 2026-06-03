@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "f767c549-0c72-4cfb-8d89-9304acfad4de",
+		"name": "QualitySoftSolutions_api_demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50560404",
+		"_collection_link": "https://kamiprieto30-8878054.postman.co/workspace/kamiprieto30's-Workspace~4b185bfb-53c4-465c-87a3-e73b44e08555/collection/50560404-f767c549-0c72-4cfb-8d89-9304acfad4de?action=share&source=collection_link&creator=50560404"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "List Users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Variables obligatorias definidas\", function () {\r",
+									"    pm.expect(pm.environment.get(\"Url-base\")).to.not.be.undefined;\r",
+									"    pm.expect(pm.environment.get(\"x-api-key\")).to.not.be.undefined;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tiempo de respuesta < 700ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"const users = json.data;\r",
+									"\r",
+									"console.log(\"ID | Nombre | Email\");\r",
+									"users.forEach(u => {\r",
+									"    console.log(`${u.id} | ${u.first_name} ${u.last_name} | ${u.email}`);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-base}}/api/users?page=2",
+							"host": [
+								"{{Url-base}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Users Failed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Variables obligatorias definidas\", function () {\r",
+									"    pm.expect(pm.environment.get(\"Url-base\")).to.not.be.undefined;\r",
+									"    pm.expect(pm.environment.get(\"x-api-key\")).to.not.be.undefined;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// DEMO: Este test falla intencionalmente para ilustrar cómo se ve un fallo en el reporte.\r",
+									"// El umbral de 5ms es imposible de cumplir; en producción se usaría 500ms o más.\r",
+									"pm.test(\"[FALLO INTENCIONAL - DEMO] Tiempo de respuesta < 5ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-base}}/api/users/2",
+							"host": [
+								"{{Url-base}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test.skip(\"Status 201 - Recurso creado (endpoint disponible en reqres.in)\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-base}}/api/users",
+							"host": [
+								"{{Url-base}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Successful",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-base}}/api/login",
+							"host": [
+								"{{Url-base}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"zion resident\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-base}}/api/users/2",
+							"host": [
+								"{{Url-base}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-base}}/api/users/2",
+							"host": [
+								"{{Url-base}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

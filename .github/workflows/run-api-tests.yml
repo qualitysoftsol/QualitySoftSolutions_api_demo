@@ -1,0 +1,36 @@
+name: Run API Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Newman and reporters
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Run Newman collection (QA)
+        run: |
+          newman run collections/QualitySoftSolutions_api_demo.postman_collection.json \
+            -e environments/local.postman_environment.json \
+            --iteration-data data/users_data.json \
+            -r cli,htmlextra,junit \
+            --reporter-htmlextra-export reports/html/local-report.html \
+            --reporter-junit-export reports/junit/local-report.xml
+
+      - name: Upload HTML report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-report
+          path: reports/html/
