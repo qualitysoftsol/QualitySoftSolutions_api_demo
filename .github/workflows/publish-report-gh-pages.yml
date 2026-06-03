@@ -32,7 +32,7 @@ jobs:
             --iteration-data data/users_data.json \
             --suppress-exit-code \
             -r cli,htmlextra,junit \
-            --reporter-htmlextra-export reports/html/qa-report.html \
+            --reporter-htmlextra-export reports/html/index.html \
             --reporter-junit-export reports/junit/qa-report.xml
 
       - name: Deploy to GitHub Pages
